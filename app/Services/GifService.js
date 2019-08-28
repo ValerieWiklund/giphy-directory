@@ -1,7 +1,7 @@
-import Value from "../Models/Gif.js";
+import Gif from "../Models/Gif.js";
 
-let _giphyApi = axios.create({ baseURL: 'http://api.giphy.com/v1/gifs/trending?api_key=WQ2te6L8eIJ2SUKLHrJEbldTyOn27UAr' })
-let sandboxApi = axios.create({ baseURL: 'bcw-sandbox.herokuapp.com/api/Valerie/gifs' })
+let _giphyApi = axios.create({ baseURL: '//api.giphy.com/v1/gifs/trending?api_key=WQ2te6L8eIJ2SUKLHrJEbldTyOn27UAr' })
+let sandboxApi = axios.create({ baseURL: '//bcw-sandbox.herokuapp.com/api/Valerie/gifs' })
 
 
 //Private
@@ -9,7 +9,6 @@ let _state = {
     apiGif: [],
     myGif: [],
     currentGif: {}
-
 }
 
 
@@ -33,6 +32,7 @@ export default class GifService {
     //#region GETTERS
     get ApiGif() {
         return _state.apiGif
+
     }
 
 
@@ -49,7 +49,8 @@ export default class GifService {
     getAllApi() {
         _giphyApi.get()
             .then(res => {
-                _setState('apiGif', res.data.data)
+                let giphyData = res.data.data.map(g => new Gif(g))
+                _setState('apiGif', giphyData)
                 console.log(res.data.data)
             })
             .catch(err => console.error(err))
